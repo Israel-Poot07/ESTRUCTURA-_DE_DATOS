@@ -1,0 +1,37 @@
+class Ventas:
+    def __init__(self):
+        self.ventas = [[0] * 12 for _ in range(3)]
+        self.departamentos = ["Ropa", "Deportes", "Juguetería"]
+        self.meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                      "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+    def insertar_venta(self, departamento, mes, monto):
+        if departamento in self.departamentos and mes in self.meses:
+            i = self.departamentos.index(departamento)
+            j = self.meses.index(mes)
+            self.ventas[i][j] = monto
+            print(f" Venta de {monto} agregada en {departamento} - {mes}")
+        else:
+            print(" Error: Departamento o mes no válido.")
+
+    def buscar_venta(self, departamento, mes):
+        if departamento in self.departamentos and mes in self.meses:
+            i = self.departamentos.index(departamento)
+            j = self.meses.index(mes)
+            print(f"Venta encontrada: {self.ventas[i][j]} en {departamento} - {mes}")
+        else:
+            print("Error: Departamento o mes no válido.")
+
+    def eliminar_venta(self, departamento, mes):
+        if departamento in self.departamentos and mes in self.meses:
+            i = self.departamentos.index(departamento)
+            j = self.meses.index(mes)
+            self.ventas[i][j] = 0
+            print(f"Venta eliminada en {departamento} - {mes}")
+        else:
+            print(" Error: Departamento o mes no válido.")
+
+ventas = Ventas()
+ventas.insertar_venta("Ropa", "Enero", 5000)
+ventas.buscar_venta("Ropa", "Enero")
+ventas.eliminar_venta("Ropa", "Enero")
