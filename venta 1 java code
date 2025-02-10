@@ -1,0 +1,54 @@
+import java.util.HashMap;
+
+public class Ventas {
+    private int[][] ventas;
+    private String[] departamentos = {"Ropa", "Deportes", "Juguetería"};
+    private String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                              "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    private HashMap<String, Integer> mapaDepartamentos = new HashMap<>();
+    private HashMap<String, Integer> mapaMeses = new HashMap<>();
+
+    public Ventas() {
+        ventas = new int[3][12];
+        for (int i = 0; i < departamentos.length; i++) {
+            mapaDepartamentos.put(departamentos[i], i);
+        }
+        for (int i = 0; i < meses.length; i++) {
+            mapaMeses.put(meses[i], i);
+        }
+    }
+
+    public void insertarVenta(String departamento, String mes, int monto) {
+        if (mapaDepartamentos.containsKey(departamento) && mapaMeses.containsKey(mes)) {
+            ventas[mapaDepartamentos.get(departamento)][mapaMeses.get(mes)] = monto;
+            System.out.println(" Venta de " + monto + " agregada en " + departamento + " - " + mes);
+        } else {
+            System.out.println(" Error: Departamento o mes no válido.");
+        }
+    }
+
+    public void buscarVenta(String departamento, String mes) {
+        if (mapaDepartamentos.containsKey(departamento) && mapaMeses.containsKey(mes)) {
+            int monto = ventas[mapaDepartamentos.get(departamento)][mapaMeses.get(mes)];
+            System.out.println(" Venta encontrada: " + monto + " en " + departamento + " - " + mes);
+        } else {
+            System.out.println(" Error: Departamento o mes no válido.");
+        }
+    }
+
+    public void eliminarVenta(String departamento, String mes) {
+        if (mapaDepartamentos.containsKey(departamento) && mapaMeses.containsKey(mes)) {
+            ventas[mapaDepartamentos.get(departamento)][mapaMeses.get(mes)] = 0;
+            System.out.println(" Venta eliminada en " + departamento + " - " + mes);
+        } else {
+            System.out.println("Error: Departamento o mes no válido.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Ventas ventas = new Ventas();
+        ventas.insertarVenta("Ropa", "Enero", 5000);
+        ventas.buscarVenta("Ropa", "Enero");
+        ventas.eliminarVenta("Ropa", "Enero");
+    }
+}
