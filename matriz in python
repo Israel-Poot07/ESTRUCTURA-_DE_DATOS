@@ -1,0 +1,40 @@
+import random
+
+def generar_matriz(alumnos, materias):
+    return [[random.randint(50, 100) for _ in range(materias)] for _ in range(alumnos)]
+
+while True:
+    try:
+        alumnos = int(input("Ingrese el número de alumnos: "))
+        materias = int(input("Ingrese el número de materias: "))
+        
+        if alumnos > 0 and materias > 0:
+            break
+        else:
+            print("El número de alumnos y materias debe ser mayor que 0.")
+    except ValueError:
+        print("Por favor, ingrese un valor entero válido.")
+
+matriz = generar_matriz(alumnos, materias)
+
+print("\nMatriz generada:")
+for fila in matriz:
+    print(fila)
+
+while True:
+    try:
+        alumno = int(input(f"\nIngrese el número de alumno (0-{alumnos-1}): "))
+        materia = int(input(f"Ingrese el número de materia (0-{materias-1}): "))
+        
+        if 0 <= alumno < alumnos and 0 <= materia < materias:
+            nuevo_valor = int(input(f"Ingrese el nuevo valor para la posición ({alumno}, {materia}): "))
+            matriz[alumno][materia] = nuevo_valor
+            print(f"\n¡Valor cambiado! El nuevo valor de la posición ({alumno}, {materia}) es: {nuevo_valor}")
+        else:
+            print("\nPosición fuera de rango.")
+        
+        continuar = input("\n¿Desea cambiar otro valor? (sí/no): ").lower()
+        if continuar != 'sí':
+            break
+    except ValueError:
+        print("\nPor favor, ingrese un valor válido.")
