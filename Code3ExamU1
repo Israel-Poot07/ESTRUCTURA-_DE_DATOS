@@ -1,0 +1,18 @@
+def decimal_a_binario(n):
+    if n == 0:
+        return "0"
+    elif n == 1:
+        return "1"
+    else:
+        return decimal_a_binario(n // 2) + str(n % 2)
+
+while True:
+    try:
+        num = int(input("Ingrese un número entero positivo: "))
+        if num < 0:
+            print("Por favor, ingrese un número positivo.")
+        else:
+            print(f"El número {num} en binario es: {decimal_a_binario(num)}")
+            break
+    except ValueError:
+        print("Entrada no válida. Ingrese un número entero positivo.")
