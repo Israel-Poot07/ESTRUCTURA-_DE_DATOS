@@ -1,0 +1,59 @@
+import random
+
+def llenar_vector(longitud):
+    return [random.randint(-100, 100) for _ in range(longitud)]
+
+def mostrar_vector(vector, nombre):
+    print(f"Vector {nombre}: {vector}")
+
+def main():
+    longitud = int(input("Ingrese la longitud de los vectores: "))
+    A = B = C = None
+    
+    while True:
+        print("\nMenú:")
+        print("1. Llenar Vector A de manera aleatoria.")
+        print("2. Llenar Vector B de manera aleatoria.")
+        print("3. Realizar C = A + B.")
+        print("4. Realizar C = B - A.")
+        print("5. Mostrar un vector.")
+        print("6. Salir.")
+        
+        opcion = input("Seleccione una opción: ")
+        
+        if opcion == "1":
+            A = llenar_vector(longitud)
+            print("Vector A llenado correctamente.")
+        elif opcion == "2":
+            B = llenar_vector(longitud)
+            print("Vector B llenado correctamente.")
+        elif opcion == "3":
+            if A is not None and B is not None:
+                C = [A[i] + B[i] for i in range(longitud)]
+                print("C = A + B calculado correctamente.")
+            else:
+                print("Debe llenar los vectores A y B primero.")
+        elif opcion == "4":
+            if A is not None and B is not None:
+                C = [B[i] - A[i] for i in range(longitud)]
+                print("C = B - A calculado correctamente.")
+            else:
+                print("Debe llenar los vectores A y B primero.")
+        elif opcion == "5":
+            vector_elegido = input("¿Qué vector desea mostrar? (A, B, C): ").upper()
+            if vector_elegido == "A" and A is not None:
+                mostrar_vector(A, "A")
+            elif vector_elegido == "B" and B is not None:
+                mostrar_vector(B, "B")
+            elif vector_elegido == "C" and C is not None:
+                mostrar_vector(C, "C")
+            else:
+                print("Vector no disponible o no ha sido calculado aún.")
+        elif opcion == "6":
+            print("Saliendo del programa...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+if __name__ == "__main__":
+    main()
