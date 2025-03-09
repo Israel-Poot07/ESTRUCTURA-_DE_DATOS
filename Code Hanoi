@@ -1,0 +1,55 @@
+class Pila:
+    def __init__(self):
+        self.items = []
+
+    def esta_vacia(self):
+        return len(self.items) == 0
+
+    def apilar(self, item):
+        self.items.append(item)
+
+    def desapilar(self):
+        if not self.esta_vacia():
+            return self.items.pop()
+        print("Error: Intento de desapilar desde una pila vacía")
+        return None
+
+    def ver_tope(self):
+        return self.items[-1] if not self.esta_vacia() else None
+
+def mover_disco(origen, destino, nombre_origen, nombre_destino):
+    disco = origen.desapilar()
+    if disco is not None:
+        destino.apilar(disco)
+        print(f"Mover disco {disco} de {nombre_origen} a {nombre_destino}")
+
+def hanoi(n, origen, auxiliar, destino, nombre_origen, nombre_auxiliar, nombre_destino):
+    if n == 1:
+        mover_disco(origen, destino, nombre_origen, nombre_destino)
+    else:
+        hanoi(n - 1, origen, destino, auxiliar, nombre_origen, nombre_destino, nombre_auxiliar)
+        mover_disco(origen, destino, nombre_origen, nombre_destino)
+        hanoi(n - 1, auxiliar, origen, destino, nombre_auxiliar, nombre_origen, nombre_destino)
+
+torre_origen = Pila()
+torre_auxiliar = Pila()
+torre_destino = Pila()
+
+num_discos = 3
+
+for disco in range(num_discos, 0, -1):
+    torre_origen.apilar(disco)
+
+print("Estado inicial:")
+print("Torre Origen:", torre_origen.items)
+print("Torre Auxiliar:", torre_auxiliar.items)
+print("Torre Destino:", torre_destino.items)
+print("\nMovimientos:")
+
+hanoi(num_discos, torre_origen, torre_auxiliar, torre_destino, "Origen", "Auxiliar", "Destino")
+
+# Imprimir estado final
+print("\nEstado final:")
+print("Torre Origen:", torre_origen.items)
+print("Torre Auxiliar:", torre_auxiliar.items)
+print("Torre Destino:", torre_destino.items)
