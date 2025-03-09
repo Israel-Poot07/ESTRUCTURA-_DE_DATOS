@@ -1,0 +1,80 @@
+class Pila:
+    def __init__(self):
+        self.items = []
+    
+    def esta_vacia(self):
+        return len(self.items) == 0
+    
+    def apilar(self, item):
+        self.items.append(item)
+    
+    def desapilar(self):
+        if not self.esta_vacia():
+            return self.items.pop()
+        print("Error: Intento de desapilar desde una pila vacía")
+        return None
+
+def evaluar_posfija(expresion):
+    print("Evaluando expresión posfija:", expresion)
+    pila = Pila()
+    operadores = {'+', '-', '*', '/'}
+    for token in expresion.split():
+        if token.isdigit():
+            pila.apilar(int(token))
+        elif token in operadores:
+            b = pila.desapilar()
+            a = pila.desapilar()
+            if a is None or b is None:
+                print("Error: Expresión posfija mal formada")
+                return None
+            if token == '+':
+                pila.apilar(a + b)
+            elif token == '-':
+                pila.apilar(a - b)
+            elif token == '*':
+                pila.apilar(a * b)
+            elif token == '/':
+                if b == 0:
+                    print("Error: División por cero")
+                    return None
+                pila.apilar(a / b)
+    resultado = pila.desapilar()
+    print("Resultado posfijo:", resultado)
+    return resultado
+
+def evaluar_prefija(expresion):
+    print("Evaluando expresión prefija:", expresion)
+    pila = Pila()
+    operadores = {'+', '-', '*', '/'}
+    for token in reversed(expresion.split()):
+        if token.isdigit():
+            pila.apilar(int(token))
+        elif token in operadores:
+            a = pila.desapilar()
+            b = pila.desapilar()
+            if a is None or b is None:
+                print("Error: Expresión prefija mal formada")
+                return None
+            if token == '+':
+                pila.apilar(a + b)
+            elif token == '-':
+                pila.apilar(a - b)
+            elif token == '*':
+                pila.apilar(a * b)
+            elif token == '/':
+                if b == 0:
+                    print("Error: División por cero")
+                    return None
+                pila.apilar(a / b)
+    resultado = pila.desapilar()
+    print("Resultado prefijo:", resultado)
+    return resultado
+
+expresion_posfija = "3 4 + 2 * 7 /"
+expresion_prefija = "* + 3 4 / 2 7"
+try:
+    print("Iniciando programa...")
+    print("Resultado posfijo:", evaluar_posfija(expresion_posfija))
+    print("Resultado prefijo:", evaluar_prefija(expresion_prefija))
+except Exception as e:
+    print("Error inesperado:", e)
