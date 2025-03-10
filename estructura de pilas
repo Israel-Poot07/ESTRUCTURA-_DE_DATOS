@@ -1,0 +1,42 @@
+class Pila:
+    def __init__(self, capacidad=8):
+        self.capacidad = capacidad
+        self.items = []
+    
+    def esta_vacia(self):
+        return len(self.items) == 0
+    
+    def esta_llena(self):
+        return len(self.items) == self.capacidad
+    
+    def apilar(self, item):
+        if self.esta_llena():
+            print("Error: Desbordamiento de pila (stack overflow)")
+        else:
+            self.items.append(item)
+            print(f"Insertado: {item}, Pila: {self.items}")
+    
+    def desapilar(self):
+        if self.esta_vacia():
+            print("Error: Subdesbordamiento de pila (stack underflow)")
+        else:
+            eliminado = self.items.pop()
+            print(f"Eliminado: {eliminado}, Pila: {self.items}")
+
+def simular_operaciones():
+    pila = Pila(8)
+    
+    pila.apilar("X")
+    pila.apilar("Y")
+    pila.desapilar()
+    pila.desapilar()
+    pila.desapilar()
+    pila.apilar("V")
+    pila.apilar("W")
+    pila.desapilar()
+    pila.apilar("R")
+    
+    print(f"Elementos finales en la pila: {pila.items}")
+    print(f"Cantidad de elementos en la pila: {len(pila.items)}")
+
+simular_operaciones()
