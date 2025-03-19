@@ -7,7 +7,7 @@ class Queue:
     def __init__(self):
         self.front = None  # Primer nodo (cabeza)
         self.rear = None   # Último nodo (final)
-        self.size = 0      # Tamaño de la cola
+        self.size = 0   # Tamaño de la cola
 
     def is_empty(self):
         return self.front is None  # Si `front` es None, la cola está vacía
@@ -32,6 +32,34 @@ class Queue:
             self.rear = None  # Si la cola se queda vacía, `rear` también debe ser None
         self.size -= 1
         return temp.info  # Devolvemos el valor del nodo eliminado
+    
+    def dequeue_at_position(self, position):
+        if position < 0 or position >= self.size:
+            raise Exception("Posición fuera de los límites de la cola")
+
+        current = self.front
+        previous = None
+        index = 0
+
+        # Si el nodo a eliminar es el primero (front)
+        if position == 0:
+            return self.dequeue()  # Usamos el método dequeue normal para eliminar el primero
+
+        # Recorremos la cola hasta la posición deseada
+        while current and index < position:
+            previous = current
+            current = current.next
+            index += 1
+
+        # Si encontramos el nodo a eliminar
+        if current:
+            previous.next = current.next
+            if current == self.rear:
+                self.rear = previous  # Si el nodo a eliminar es el último, actualizamos `rear`
+            self.size -= 1
+            return current.info  # Devolvemos el valor del nodo eliminado
+        else:
+            raise Exception("Nodo no encontrado en la posición especificada")
 
     def peek(self):
         if self.is_empty():
@@ -50,7 +78,6 @@ class Queue:
         print(" -> ".join(map(str, elements)))  # Mostramos los valores de la cola
 
 
-# Ejemplo de uso:
 if __name__ == "__main__":
     cola = Queue()
 
@@ -58,21 +85,15 @@ if __name__ == "__main__":
     cola.enqueue(10)
     cola.enqueue(20)
     cola.enqueue(30)
+    cola.enqueue(40)
 
-    # Mostrar elementos de la cola
+    # Mostrar los elementos antes de eliminar
     print("Elementos en la cola:")
-    cola.display()  # Salida: 10 -> 20 -> 30
+    cola.display()  # Salida: 10 -> 20 -> 30 -> 40
 
-    # Eliminar un elemento (el primero en entrar)
-    print("Elemento eliminado:", cola.dequeue())  # Salida: 10
+    # Eliminar el nodo en la posición 2 (el valor 30)
+    print("Elemento eliminado en posición 2:", cola.dequeue_at_position(3))  # Salida: 30
 
-    # Mostrar los elementos después de eliminar un elemento
-    print("Elementos después de eliminar:")
-    cola.display()  # Salida: 20 -> 30
-
-    # Ver el primer elemento de la cola
-    print("Elemento en el frente:", cola.peek())  # Salida: 20
-
-    # Ver el tamaño de la cola
-    print("Tamaño de la cola:", cola.get_size())  # Salida: 2
-  
+    # Mostrar los elementos después de eliminar
+    print("Elementos después de eliminar en la posición 2:")
+    cola.display()  # Salida: 10 -> 20 -> 40
