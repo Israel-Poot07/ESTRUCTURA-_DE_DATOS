@@ -1,0 +1,88 @@
+class Nodo:
+    def __init__(self, valor):
+        self.valor = valor
+        self.izquierda = None
+        self.derecha = None
+
+class ArbolBinario:
+    def __init__(self):
+        self.raiz = None
+    
+    def insertar(self, valor):
+        if self.raiz is None:
+            self.raiz = Nodo(valor)
+        else:
+            self._insertar_recursivo(valor, self.raiz)
+    
+    def _insertar_recursivo(self, valor, nodo_actual):
+        if valor < nodo_actual.valor:
+            if nodo_actual.izquierda is None:
+                nodo_actual.izquierda = Nodo(valor)
+            else:
+                self._insertar_recursivo(valor, nodo_actual.izquierda)
+        elif valor > nodo_actual.valor:
+            if nodo_actual.derecha is None:
+                nodo_actual.derecha = Nodo(valor)
+            else:
+                self._insertar_recursivo(valor, nodo_actual.derecha)
+    
+    def buscar(self, valor):
+        return self._buscar_recursivo(valor, self.raiz)
+    
+    def _buscar_recursivo(self, valor, nodo_actual):
+        if nodo_actual is None:
+            return False
+        if valor == nodo_actual.valor:
+            return True
+        elif valor < nodo_actual.valor:
+            return self._buscar_recursivo(valor, nodo_actual.izquierda)
+        else:
+            return self._buscar_recursivo(valor, nodo_actual.derecha)
+    
+    def recorrido_inorden(self):
+        elementos = []
+        self._inorden_recursivo(self.raiz, elementos)
+        return elementos
+    
+    def _inorden_recursivo(self, nodo_actual, elementos):
+        if nodo_actual is not None:
+            self._inorden_recursivo(nodo_actual.izquierda, elementos)
+            elementos.append(nodo_actual.valor)
+            self._inorden_recursivo(nodo_actual.derecha, elementos)
+    
+    def recorrido_preorden(self):
+        elementos = []
+        self._preorden_recursivo(self.raiz, elementos)
+        return elementos
+    
+    def _preorden_recursivo(self, nodo_actual, elementos):
+        if nodo_actual is not None:
+            elementos.append(nodo_actual.valor)
+            self._preorden_recursivo(nodo_actual.izquierda, elementos)
+            self._preorden_recursivo(nodo_actual.derecha, elementos)
+    
+    def recorrido_postorden(self):
+        elementos = []
+        self._postorden_recursivo(self.raiz, elementos)
+        return elementos
+    
+    def _postorden_recursivo(self, nodo_actual, elementos):
+        if nodo_actual is not None:
+            self._postorden_recursivo(nodo_actual.izquierda, elementos)
+            self._postorden_recursivo(nodo_actual.derecha, elementos)
+            elementos.append(nodo_actual.valor)
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    arbol = ArbolBinario()
+    letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
+    
+    for letra in letras:
+        arbol.insertar(letra)
+    
+    print("Recorrido Inorden:", arbol.recorrido_inorden())
+    print("Recorrido Preorden:", arbol.recorrido_preorden())
+    print("Recorrido Postorden:", arbol.recorrido_postorden())
+    
+    print("¿Está la letra 'C' en el árbol?", arbol.buscar('C'))
+    print("¿Está la letra 'Z' en el árbol?", arbol.buscar('Z'))
