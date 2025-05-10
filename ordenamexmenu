@@ -1,0 +1,128 @@
+# Métodos de ordenamiento
+
+def shell_sort(arr):
+    n = len(arr)
+    gap = n // 2
+
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+
+            arr[j] = temp
+        gap //= 2
+    return arr
+
+
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivote = arr[0]
+    menores = [x for x in arr[1:] if x <= pivote]
+    mayores = [x for x in arr[1:] if x > pivote]
+    return quicksort(menores) + [pivote] + quicksort(mayores)
+
+
+def heapify(arr, n, i):
+    mayor = i
+    izq = 2 * i + 1
+    der = 2 * i + 2
+
+    if izq < n and arr[izq] > arr[mayor]:
+        mayor = izq
+    if der < n and arr[der] > arr[mayor]:
+        mayor = der
+    if mayor != i:
+        arr[i], arr[mayor] = arr[mayor], arr[i]
+        heapify(arr, n, mayor)
+
+
+def heapsort(arr):
+    n = len(arr)
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+    for i in range(n - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heapify(arr, i, 0)
+    return arr
+
+
+def counting_sort(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    i = n - 1
+    while i >= 0:
+        index = arr[i] // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+
+    for i in range(n):
+        arr[i] = output[i]
+
+
+def radix_sort(arr):
+    if not arr:
+        return arr
+    max_num = max(arr)
+    exp = 1
+    while max_num // exp > 0:
+        counting_sort(arr, exp)
+        exp *= 10
+    return arr
+
+
+# Menú interactivo
+
+def menu():
+    while True:
+        print("\n===== MENÚ DE ORDENAMIENTO =====")
+        print("1. ShellSort")
+        print("2. Quicksort")
+        print("3. Heapsort")
+        print("4. Radix Sort")
+        print("5. Salir")
+
+        opcion = input("Selecciona un método (1-5): ")
+
+        if opcion == "5":
+            print("Programa finalizado.")
+            break
+
+        try:
+            n = int(input("Cantidad de números a ordenar: "))
+            numeros = []
+            for i in range(n):
+                num = int(input(f"Ingrese número {i + 1}: "))
+                numeros.append(num)
+        except ValueError:
+            print("Error: debes ingresar solo números enteros.")
+            continue
+
+        if opcion == "1":
+            print("Resultado con ShellSort:", shell_sort(numeros.copy()))
+        elif opcion == "2":
+            print("Resultado con Quicksort:", quicksort(numeros.copy()))
+        elif opcion == "3":
+            print("Resultado con Heapsort:", heapsort(numeros.copy()))
+        elif opcion == "4":
+            print("Resultado con Radix Sort:", radix_sort(numeros.copy()))
+        else:
+            print("Opción inválida, intenta de nuevo.")
+
+# Ejecutar menú
+menu()
