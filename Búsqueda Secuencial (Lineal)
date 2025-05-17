@@ -1,0 +1,15 @@
+def busqueda_secuencial(lista, valor):
+    for i, elemento in enumerate(lista):
+        if elemento == valor:
+            return i  # Regresa el índice donde encontró el valor
+    return -1  # No encontrado
+
+# Ejemplo de uso
+numeros = [10, 23, 45, 70, 11, 15]
+buscar = 70
+
+resultado = busqueda_secuencial(numeros, buscar)
+if resultado != -1:
+    print(f"Elemento {buscar} encontrado en la posición {resultado}.")
+else:
+    print(f"Elemento {buscar} no encontrado.")
